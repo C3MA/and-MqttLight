@@ -12,9 +12,20 @@ public class MainView extends Activity {
 
     WorkerThread wt;
 
-    public void light1(View v) {
+    public void light(View v)
+    {
 
-        Log.i("c3ma", "TOOGLE!"+ ((Switch) v).isChecked());
+        if (v instanceof Switch)
+        {
+            Switch s = (Switch) v;
+            try {
+                int index = Integer.parseInt(s.getHint().toString());
+
+                Log.i("c3ma", "Light " +  index + " " + s.isChecked());
+            } catch (NumberFormatException nfe) {
+                Log.e("c3ma", "Could not parse " + nfe.getMessage());
+            }
+        }
 
     }
 
