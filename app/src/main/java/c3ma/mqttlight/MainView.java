@@ -91,6 +91,7 @@ public class MainView extends Activity {
 
                 if (s != null)
                 {
+                    Log.d("c3ma", "Lamp" + index + " updated to " + on + " on the GUI.");
                     s.setChecked(on);
                 }
                 else

@@ -32,7 +32,7 @@ public class WorkerCallback implements MqttCallback {
         // Example for message: on
         try {
             int i = Integer.parseInt(topic.getName().split("/")[3]);
-            this.workerThread.updateLamp(i, message.toString() == "on");
+            this.workerThread.updateLamp(i, message.toString().equals("on"));
         } catch (Exception ex) {
             // on problems with the array index, a text that is no number
             Log.e("c3ma", "Cannot extract lamp number (" + ex.getMessage());
