@@ -47,7 +47,7 @@ public class WorkerThread extends Thread {
 
     public void lichtAn(int i) {
         try {
-            final MqttTopic temperatureTopic = client.getTopic("/demo/light/"+ i +"/command");
+            final MqttTopic temperatureTopic = client.getTopic("/room/light/"+ i +"/command");
             final MqttMessage message = new MqttMessage("on".getBytes());
             temperatureTopic.publish(message);
         } catch (Exception e) {
@@ -58,7 +58,7 @@ public class WorkerThread extends Thread {
 
     public void lichtAus(int i) {
         try {
-            final MqttTopic temperatureTopic = client.getTopic("/demo/light/"+ i +"/command");
+            final MqttTopic temperatureTopic = client.getTopic("/room/light/"+ i +"/command");
             final MqttMessage message = new MqttMessage("off".getBytes());
             temperatureTopic.publish(message);
         } catch (Exception e) {

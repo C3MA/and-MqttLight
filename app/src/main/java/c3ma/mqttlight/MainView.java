@@ -20,8 +20,12 @@ public class MainView extends Activity {
             Switch s = (Switch) v;
             try {
                 int index = Integer.parseInt(s.getHint().toString());
-
+                if (s.isChecked())
+                    wt.lichtAn(index);
+                else
+                    wt.lichtAus(index);
                 Log.i("c3ma", "Light " +  index + " " + s.isChecked());
+                wt.updateLamp(index, s.isChecked());
             } catch (NumberFormatException nfe) {
                 Log.e("c3ma", "Could not parse " + nfe.getMessage());
             }
