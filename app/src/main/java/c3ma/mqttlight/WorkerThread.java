@@ -20,12 +20,18 @@ public class WorkerThread extends Thread {
 
     private MqttClient client;
 
+    private MainView mainView = null;
+
+    public WorkerThread(MainView mainView) {
+        this.mainView = mainView;
+    }
+
     public void run() {
 
         try {
 
             client = new MqttClient(BROKER_URL, MqttClient.generateClientId(), new MemoryPersistence());
-            client.setCallback(new WorkerCallback());
+            client.setCallback(new WorkerCallback(this));
             client.connect();
 
             client.subscribe("/room/light/+/state");
@@ -58,6 +64,12 @@ public class WorkerThread extends Thread {
         } catch (Exception e) {
 
         }
+
     }
 
+    public void updateLamp(int index, boolean on)
+    {
+        if (mainView != null)
+            mainView.updateLamp(index, on);
+    }
 }

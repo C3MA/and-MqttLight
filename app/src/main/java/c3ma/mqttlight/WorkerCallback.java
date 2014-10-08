@@ -14,6 +14,12 @@ import org.eclipse.paho.client.mqttv3.*;
  */
 public class WorkerCallback implements MqttCallback {
 
+    private WorkerThread workerThread;
+
+    public WorkerCallback(WorkerThread workerThread) {
+        this.workerThread = workerThread;
+    }
+
     @Override
     public void connectionLost(Throwable cause) {
         //We should reconnect here
@@ -22,8 +28,15 @@ public class WorkerCallback implements MqttCallback {
     @Override
     public void messageArrived(MqttTopic topic, MqttMessage message) throws Exception {
         Log.i("c3ma.Message", topic.getName() +" - "+ message.toString());
-
-
+        // Example for topic name: /room/light/8/state
+        // Example for message: on
+        try {
+            int i = Integer.parseInt(topic.getName().split("/")[3]);
+            this.workerThread.updateLamp(i, message.toString() == "on");
+        } catch (Exception ex) {
+            // on problems with the array index, a text that is no number
+            Log.e("c3ma", "Cannot extract lamp number (" + ex.getMessage());
+        }
     }
 
     @Override

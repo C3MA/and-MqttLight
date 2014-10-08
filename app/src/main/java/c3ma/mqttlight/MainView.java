@@ -26,7 +26,6 @@ public class MainView extends Activity {
                 Log.e("c3ma", "Could not parse " + nfe.getMessage());
             }
         }
-
     }
 
 
@@ -35,7 +34,7 @@ public class MainView extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        wt = new WorkerThread();
+        wt = new WorkerThread(this);
         wt.start();
 
         setContentView(R.layout.activity_main_view);
@@ -59,5 +58,46 @@ public class MainView extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updateLamp(final int index, final boolean on)
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Switch s = null;
+
+                switch (index)
+                {
+                    case 1:
+                        s = (Switch) findViewById(R.id.switch1);
+                        break;
+                    case 2:
+                        s = (Switch) findViewById(R.id.switch2);
+                        break;
+                    case 3:
+                        s = (Switch) findViewById(R.id.switch3);
+                        break;
+                    case 4:
+                        s = (Switch) findViewById(R.id.switch4);
+                        break;
+                    case 5:
+                        s = (Switch) findViewById(R.id.switch5);
+                        break;
+                    case 6:
+                        s = (Switch) findViewById(R.id.switch6);
+                        break;
+                }
+
+                if (s != null)
+                {
+                    s.setChecked(on);
+                }
+                else
+                {
+                    Log.e("c3ma", "Lamp" + index + " is not supported.");
+                }
+            }
+        });
     }
 }
