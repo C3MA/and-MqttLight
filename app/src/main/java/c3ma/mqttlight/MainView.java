@@ -1,6 +1,7 @@
 package c3ma.mqttlight;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -59,6 +60,8 @@ public class MainView extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, LightSettingsActivity.class);
+            startActivity(i);
             return true;
         }
         return super.onOptionsItemSelected(item);

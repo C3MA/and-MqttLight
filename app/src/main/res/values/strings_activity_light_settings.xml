@@ -1,0 +1,8 @@
+<resources>
+    <string name="title_activity_light_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+    <string name="title_ip_addr">IP Address</string>
+    <string name="default_ip_addr">127.0.0.1</string>
+
+</resources>

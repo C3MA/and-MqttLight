@@ -1,7 +1,9 @@
 package c3ma.mqttlight;
 
 import android.content.ContextWrapper;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 
@@ -16,21 +18,30 @@ import org.eclipse.paho.client.mqttv3.internal.MemoryPersistence;
  */
 public class WorkerThread extends Thread {
 
-    public static final String BROKER_URL = "tcp://10.23.42.31:1883";
-
+    public static final String LOCAL_IPADDRESS = "127.0.0.1";
     private MqttClient client;
 
     private MainView mainView = null;
+    String url = null;
 
     public WorkerThread(MainView mainView) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mainView);
+        url = settings.getString("ip_addr", LOCAL_IPADDRESS);
         this.mainView = mainView;
     }
 
     public void run() {
 
-        try {
+        // Wait for a valid configuration
+        while (url == null || url.equals(LOCAL_IPADDRESS))
+        {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {            }
+        }
 
-            client = new MqttClient(BROKER_URL, MqttClient.generateClientId(), new MemoryPersistence());
+        try {
+            client = new MqttClient("tcp://" + url + ":1883", MqttClient.generateClientId(), new MemoryPersistence());
             client.setCallback(new WorkerCallback(this));
             client.connect();
 
